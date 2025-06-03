@@ -1,0 +1,28 @@
+strict digraph {
+"linear_regression_train";
+"linear_regression_valid";
+"linear_regression_full";
+"decision_tree_train";
+"decision_tree_valid";
+"decision_tree_full";
+"catboost_train";
+"catboost_valid";
+"catboost_full";
+"xgboost_train";
+"xgboost_valid";
+"xgboost_full";
+"neural_network_train";
+"neural_network_valid";
+"neural_network_full";
+"linear_regression_train" -> "linear_regression_valid";
+"linear_regression_train" -> "linear_regression_full";
+"decision_tree_train" -> "decision_tree_valid";
+"decision_tree_train" -> "decision_tree_full";
+"catboost_train" -> "catboost_valid";
+"catboost_train" -> "catboost_full";
+"xgboost_train" -> "xgboost_valid";
+"xgboost_train" -> "xgboost_full";
+"neural_network_train" -> "neural_network_valid";
+"neural_network_train" -> "neural_network_full";
+}
+

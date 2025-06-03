@@ -1,0 +1,210 @@
+stages:
+  # 线性回归模型
+  linear_regression_train:
+    cmd: python 1linear-reg-learn.py
+    deps:
+      - 1linear-reg-learn.py
+      - X_train.csv
+      - y_train.csv    
+    outs:
+      - 1model.pkl
+    metrics:
+      - 1linear_reg_train_metrics.json:
+          cache: false
+   
+
+  linear_regression_valid:
+    cmd: python 1linear-reg-valid.py
+    deps:
+      - 1linear-reg-valid.py
+      - X_train.csv
+      - y_train.csv  
+      - 1model.pkl
+    metrics:
+      - 1linear_reg_valid_metrics.json:
+          cache: false
+
+  linear_regression_full:
+    cmd: python 1linear-reg-full.py
+    deps:
+      - 1linear-reg-full.py
+      - preprocessed_data.csv
+      - 1model.pkl
+    metrics:
+      - 1linear_reg_full_metrics.json:
+          cache: false
+
+  # 决策树模型
+  decision_tree_train:
+    cmd: python 2decision-tree-learn.py
+    deps:
+      - 2decision-tree-learn.py
+      - X_train.csv
+      - y_train.csv  
+    outs:
+      - 2dt_model.pkl
+    metrics:
+      - 2decision_tree_train_metrics.json:
+          cache: false
+    params:
+      - decision_tree.max_depth
+      - decision_tree.min_samples_split
+      - decision_tree.random_state
+
+  decision_tree_valid:
+    cmd: python 2decision-tree-valid.py
+    deps:
+      - 2decision-tree-valid.py
+      - X_train.csv
+      - y_train.csv  
+      - 2dt_model.pkl
+    metrics:
+      - 2decision_tree_valid_metrics.json:
+          cache: false
+
+
+  decision_tree_full:
+    cmd: python 2decision-tree-full.py
+    deps:
+      - 2decision-tree-full.py
+      - preprocessed_data.csv
+      - 2dt_model.pkl
+    metrics:
+      - 2decision_tree_full_metrics.json:
+          cache: false
+
+  # CatBoost模型
+  catboost_train:
+    cmd: python 3catboost-learn.py
+    deps:
+      - 3catboost-learn.py
+      - X_train.csv
+      - y_train.csv  
+    outs:
+      - 3catboost_model.cbm
+    metrics:
+      - 3catboost_metrics.json:
+          cache: false
+    params:
+      - catboost.iterations
+      - catboost.learning_rate
+      - catboost.depth    
+      - catboost.random_state        
+
+  catboost_valid:
+    cmd: python 3catboost-valid.py
+    deps:
+      - 3catboost-valid.py
+      - X_train.csv
+      - y_train.csv  
+      - 3catboost_model.cbm
+    metrics:
+      - 3catboost_valid_metrics.json:
+          cache: false
+    # outs:
+    #   - 3catboost_feature_importance.csv
+    # plots:
+    #   - 3catboost_feature_importance.png
+
+  catboost_full:
+    cmd: python 3catboost-full.py
+    deps:
+      - 3catboost-full.py
+      - preprocessed_data.csv
+      - 3catboost_model.cbm
+    metrics:
+      - 3catboost_full_metrics.json:
+          cache: false
+
+  # XGBoost模型
+  xgboost_train:
+    cmd: python 4xgboost-learn.py
+    deps:
+      - 4xgboost-learn.py
+      - X_train.csv
+      - y_train.csv  
+    outs:
+      - 4xgb_model.json
+    metrics:
+      - 4xgboost_metrics.json:
+          cache: false
+    params:
+      - xgboost.max_depth
+      - xgboost.eta    
+      - xgboost.num_rounds
+      - xgboost.colsample_bytree   
+      - xgboost.random_state          
+
+  xgboost_valid:
+    cmd: python 4xgboost-valid.py
+    deps:
+      - 4xgboost-valid.py
+      - X_train.csv
+      - y_train.csv  
+      - 4xgb_model.json
+    metrics:
+      - 4xgboost_valid_metrics.json:
+          cache: false
+    # outs:
+    #   - 4xgboost_feature_importance.csv
+    # plots:
+    #   - 4xgboost_feature_importance.png
+
+  xgboost_full:
+    cmd: python 4xgboost-full.py
+    deps:
+      - 4xgboost-full.py
+      - preprocessed_data.csv
+      - 4xgb_model.json
+    metrics:
+      - 4xgboost_full_metrics.json:
+          cache: false
+
+  # 神经网络模型
+  neural_network_train:
+    cmd: python 5neural-network-learn.py
+    deps:
+      - 5neural-network-learn.py
+      - X_train.csv
+      - y_train.csv  
+    outs:
+      - 5nn_model.keras
+      - 5nn_scaler.pkl
+    metrics:
+      - 5nn_metrics.json:
+          cache: false
+    # plots:
+    #   - 5nn_learning_curves.png
+    #   - 5nn_weights_histogram.png
+    params:
+      - neural_network.hidden_layers
+      - neural_network.activation  
+      - neural_network.learning_rate
+      - neural_network.batch_size 
+      - neural_network.epochs
+      - neural_network.random_state     
+
+  neural_network_valid:
+    cmd: python 5neural-network-valid.py
+    deps:
+      - 5neural-network-valid.py
+      - X_train.csv
+      - y_train.csv  
+      - 5nn_model.keras
+      - 5nn_scaler.pkl
+    metrics:
+      - 5nn_valid_metrics.json:
+          cache: false
+
+  neural_network_full:
+    cmd: python 5neural-network-full.py
+    deps:
+      - 5neural-network-full.py
+      - preprocessed_data.csv
+      - 5nn_model.keras
+      - 5nn_scaler.pkl
+    metrics:
+      - 5nn_full_metrics.json:
+          cache: false
+    # outs:
+    #   - 5nn_training_history.csv

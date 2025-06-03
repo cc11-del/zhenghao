@@ -1,0 +1,39 @@
+# 线性回归参数
+linear_regression:
+  fit_intercept: true
+
+# 决策树参数
+decision_tree:
+  max_depth: 15
+  min_samples_split: 10
+  random_state: 42
+
+# CatBoost参数
+catboost:
+  iterations: 1000
+  learning_rate: 0.05
+  depth: 8
+  random_state: 42
+
+# XGBoost参数
+xgboost:
+  max_depth: 7
+  eta: 0.08
+  num_rounds: 800
+  subsample: 0.9
+  colsample_bytree: 0.8
+  random_state: 42
+
+# 神经网络参数
+neural_network:
+  hidden_layers:
+  - 128
+  - 64
+  - 32
+  activation: relu
+  learning_rate: 0.001
+  batch_size: 32
+  epochs: 200
+  dropout_rate: 0.2
+  random_state: 42
+
